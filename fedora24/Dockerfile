@@ -35,10 +35,9 @@ RUN dnf makecache fast \
 RUN echo "PATH=\"\$HOME/.composer/vendor/bin:\$PATH\"" >> /home/valet/.profile \
         && echo 'export USER=$(whoami)' >> /home/valet/.profile
 
-# Insert entrypoint
-ADD entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# Insert prepare script
+ADD prepare.sh /
+RUN chmod +x /prepare.sh
 
 VOLUME ["/sys/fs/cgroup", "/tmp", "/run"]
 CMD ["/usr/sbin/init"]

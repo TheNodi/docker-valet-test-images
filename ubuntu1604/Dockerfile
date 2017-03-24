@@ -33,9 +33,8 @@ RUN echo "PATH=\"\$HOME/.composer/vendor/bin:\$PATH\"" >> /home/valet/.profile \
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Insert entrypoint
-ADD entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# Insert prepare script
+ADD prepare.sh /
+RUN chmod +x /prepare.sh
 
 CMD ["/lib/systemd/systemd"]
