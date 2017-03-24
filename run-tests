@@ -1,0 +1,41 @@
+#!/bin/bash
+
+############# Information ####################################################
+# This is a debug script I use to test out
+# containers before pushing them to docker hub.
+#
+# Usage:
+#   sudo ./run-tests [box-name] [docker-run-opts]
+#
+# Notes:
+#   Fedora needs extra run options:
+#     '--privileged  --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'
+##############################################################################
+
+############## Variables #####################################################
+DOCKER_IMAGE="thenodi/docker-${1-ubuntu1604}-valet"
+DOCKER_USER="valet"
+VOLUME_SOURCE="${PWD}/../valet-linux"
+VOLUME_DESTINATION="/workspace"
+##############################################################################
+
+# Start the container in detached mode
+CONTAINER_ID=$( \
+    docker run --rm --detach \
+        --volume=${VOLUME_SOURCE}:${VOLUME_DESTINATION} \
+        -e "REPOSITORY=${VOLUME_DESTINATION}" \
+        $2 \
+        ${DOCKER_IMAGE}:latest
+)
+
+# Wait for entrypoint script to complete
+docker exec -it $CONTAINER_ID bash -c 'echo "Waiting for entrypoint script..."; while [ ! -f /tmp/entrypoint_done ]; do sleep 1; done; echo "Entrypoint ready."'
+
+# Run functional tests
+docker exec -it -u ${DOCKER_USER} $CONTAINER_ID ${VOLUME_DESTINATION}/tests/Functional/run.sh
+
+# Uncomment to go into bash console for debugging
+# docker exec -it -u ${DOCKER_USER} $CONTAINER_ID bash
+
+# Terminate container the rude way
+docker kill $CONTAINER_ID

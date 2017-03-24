@@ -1,0 +1,11 @@
+#!/bin/bash
+
+##############################################################################
+# Script to build all docker files in this repository
+##############################################################################
+
+for DIRECTORY in `find . -type d | sed '/^\.$/d'`
+do
+    echo "Building ${DIRECTORY#./}..."
+    docker build -t thenodi/docker-${DIRECTORY#./}-valet:latest $DIRECTORY
+done
