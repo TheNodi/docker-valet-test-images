@@ -4,8 +4,11 @@
 # Script to build all docker files in this repository
 ##############################################################################
 
-for DIRECTORY in `find . -type d | sed '/^\.$/d'`
+for DIRECTORY in `find . -maxdepth 1 -type d | sed '/^\.$/d'`
 do
-    echo "Building ${DIRECTORY#./}..."
-    docker build -t thenodi/docker-${DIRECTORY#./}-valet:latest $DIRECTORY
+    if [[ "${DIRECTORY#./}" != ".git" ]]
+    then
+      echo -e "\033[0;32mBuilding ${DIRECTORY#./}...\033[0m"
+      docker build -t thenodi/docker-${DIRECTORY#./}-valet:latest $DIRECTORY
+    fi
 done
