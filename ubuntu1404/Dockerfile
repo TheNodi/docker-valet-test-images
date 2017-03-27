@@ -7,7 +7,7 @@ RUN locale-gen en_US.UTF-8 \
     && export LANG=en_US.UTF-8 \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-       software-properties-common \
+       software-properties-common curl zip unzip git \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
@@ -18,9 +18,13 @@ RUN useradd -m valet \
 
 # Install Dependences
 RUN export LANG=en_US.UTF-8 \
+    && echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" > /etc/apt/sources.list.d/nginx.list \
+    && echo "deb-src http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list.d/nginx.list \
+    && curl -O https://nginx.org/keys/nginx_signing.key \
+    && apt-key add ./nginx_signing.key \
     && add-apt-repository -y ppa:ondrej/php \
     && apt-get update \
-    && apt-get install -y nginx curl zip unzip git \
+    && apt-get install -y --no-install-recommends nginx \
         php5.6-fpm php5.6-cli php5.6-mcrypt php5.6-mbstring php5.6-xml php5.6-curl \
     && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && mkdir /run/php
