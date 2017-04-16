@@ -25,7 +25,7 @@ RUN useradd -m valet \
     && echo "valet ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/valet
 
 # Install Dependences
-RUN pacman -S --noconfirm \
+RUN pacman -Syu --noconfirm \
         nginx curl zip unzip git php-fpm
 
 # Fix "pid" directive is duplicate in /etc/nginx/nginx.conf
