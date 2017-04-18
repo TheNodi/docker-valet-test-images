@@ -1,11 +1,4 @@
-# "ported" by Adam Miller <maxamillion@fedoraproject.org> from
-#   https://github.com/fedora-cloud/Fedora-Dockerfiles
-#
-# Originally written for Fedora-Dockerfiles by
-#   Aditya Patawari <adimania@fedoraproject.org>
-
-FROM centos:centos7
-MAINTAINER The CentOS Project <cloud-ops@centos.org>
+FROM centos:7
 
 # Make docker more real
 RUN yum -y update && yum -y install systemd && yum clean all && \
@@ -28,6 +21,12 @@ RUN sed -i '/Defaults    secure_path/a Defaults env_keep = "HOME"' /etc/sudoers
 # Create user, home directory & add it to sudoers
 RUN useradd -m valet \
     && echo "valet ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/valet
+
+# Enable PHP5.6 Repo
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
+    && yum -y install yum-utils \
+    && yum-config-manager --enable remi-php56
 
 # Install Dependences
 RUN yum makecache fast \
