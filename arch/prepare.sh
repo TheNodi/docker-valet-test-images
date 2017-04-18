@@ -1,3 +1,4 @@
 #!/bin/sh
 
-# Nothing to do
+# Resync pacman database
+sudo pacman -Sy
