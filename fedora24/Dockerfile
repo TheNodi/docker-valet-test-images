@@ -12,7 +12,7 @@ RUN dnf -y update && dnf -y install systemd && dnf clean all && \
     rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
     rm -f /lib/systemd/system/basic.target.wants/*;\
     rm -f /lib/systemd/system/anaconda.target.wants/*;
-RUN dnf -y install sudo which
+RUN dnf -y install sudo which NetworkManager
 
 # Disable requiretty.
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
