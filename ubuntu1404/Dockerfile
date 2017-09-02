@@ -25,7 +25,7 @@ RUN export LANG=en_US.UTF-8 \
     && add-apt-repository -y ppa:ondrej/php \
     && apt-get update \
     && apt-get install -y --no-install-recommends nginx \
-        php5.6-fpm php5.6-cli php5.6-mcrypt php5.6-mbstring php5.6-xml php5.6-curl \
+        jq xsel network-manager libnss3-tools php5.6-fpm php5.6-cli php5.6-mcrypt php5.6-mbstring php5.6-xml php5.6-curl \
     && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && mkdir /run/php
 
