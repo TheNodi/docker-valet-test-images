@@ -20,7 +20,7 @@ RUN sed -i '/Defaults	env_reset/a Defaults env_keep = "COLORS DISPLAY HOSTNAME H
 
 # Install Dependences
 RUN apt-get update \
-    && apt-get install -y nginx jq xsel network-manager libnss3-tools curl zip unzip git \
+    && apt-get install -y nginx jq curl zip unzip git \
               php-fpm php-cli php-mcrypt php-mbstring php-xml php-curl \
     && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && mkdir /run/php

@@ -27,7 +27,7 @@ RUN useradd -m valet \
 # Install Dependences
 RUN dnf makecache fast \
     && dnf -y install \
-        nginx jq xsel curl zip unzip git \
+        nginx jq curl zip unzip git \
         php-fpm php-cli php-mcrypt php-mbstring php-xml php-curl php-posix \
     && dnf clean all
 

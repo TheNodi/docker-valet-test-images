@@ -31,7 +31,7 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 # Install Dependences
 RUN yum makecache fast \
     && yum -y install \
-        nginx jq xsel curl zip unzip git \
+        nginx jq curl zip unzip git \
         php-fpm php-cli php-mcrypt php-mbstring php-xml php-curl php-posix \
     && yum clean all
 
